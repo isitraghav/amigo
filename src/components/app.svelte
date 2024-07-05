@@ -60,9 +60,10 @@
     });
   });
 
-  import { loggedin } from "../lib/firebase";
+  import { loggedin, userData } from "../lib/firebase";
   import { FirebaseAuthentication } from "@capacitor-firebase/authentication";
   import eruda from "eruda";
+
   eruda.init();
 </script>
 
@@ -71,31 +72,35 @@
     <Toolbar tabbar icons bottom>
       <Link tabLink="#view-home" tabLinkActive iconIos="f7:house_fill" />
       <Link tabLink="#view-streak" iconIos="f7:flame" />
-      <Link tabLink="#view-settings" iconIos="f7:person" />
+      <Link tabLink="#view-profile" iconIos="f7:person" />
     </Toolbar>
 
     <View id="view-home" main tab tabActive url="/" />
-    <View id="view-catalog" name="catalog" tab url="/catalog/" />
-    <View id="view-settings" name="settings" tab url="/settings/" />
-  </Views>
+    <View id="view-streak" name="streak" tab url="/streak/" />
+    <View id="view-profile" name="profile" tab url="/profile/" />
 
-  <LoginScreen opened={!$loggedin}>
-    <div class="flex flex-col gap-2 w-full h-full justify-center items-center">
-      <LoginScreenTitle>
-        <div class="font-light">Amigo</div>
-      </LoginScreenTitle>
-      <div class="mt-4">
-        <Button
-          onClick={async () => {
-            const result = await FirebaseAuthentication.signInWithGoogle();
-            console.log(result);
-          }}
-          class="rounded-full w-42 flex items-center justify-center"
-        >
-          <Icon icon="google" class="mr-1" />
-          continue with Google
-        </Button>
+    <LoginScreen opened={!$loggedin}>
+      <div
+        class="flex flex-col gap-2 w-full h-full justify-center items-center"
+      >
+        <LoginScreenTitle>
+          <div class="text-4xl">Amigo</div>
+          <div class="text-sm font-light mt-1">your study planner</div>
+        </LoginScreenTitle>
+        <div class="mt-4">
+          <Button
+            onClick={async () => {
+              const result = await FirebaseAuthentication.signInWithGoogle();
+              console.log(result);
+            }}
+            tonal
+            class="rounded-full w-42 gap-2 p-3 flex items-center justify-center"
+          >
+            <Icon f7="logo_google" size={20} />
+            Continue With Google
+          </Button>
+        </div>
       </div>
-    </div>
-  </LoginScreen>
+    </LoginScreen>
+  </Views>
 </App>

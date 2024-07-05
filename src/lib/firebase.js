@@ -7,6 +7,7 @@ const firebaseConfig = {
   appId: "1:724180986077:web:7e6148dc5a57abca541334",
   measurementId: "G-V4ZCKN6T1Y",
 };
+import { FirebaseAuthentication } from "@capacitor-firebase/authentication";
 // Import the necessary Firebase modules
 import { initializeApp } from "firebase/app";
 import {
@@ -24,24 +25,12 @@ const auth = getAuth(app);
 // Configure the Google Sign-In provider
 const provider = new GoogleAuthProvider();
 
-// Function to handle Google Sign-In
-export const signInWithGoogle = async () => {
-  try {
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
-    console.log("Signed in with Google:", user.email);
-    // Redirect to the user's dashboard or other protected area
-  } catch (error) {
-    console.error("Error signing in with Google:", error);
-    // Handle errors (e.g., user canceled the sign-in flow)
-  }
-};
-
 export const loggedin = writable(false);
-onAuthStateChanged(auth, (user) => {
-  if (user) {
+export let userData = writable({});
+
+FirebaseAuthentication.addListener("authStateChange", (state) => {
+  if (state.user) {
     loggedin.set(true);
-  } else {
-    loggedin.set(false);
+    userData.set(state.user);
   }
 });
