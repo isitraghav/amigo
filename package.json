@@ -29,6 +29,7 @@
     "@capacitor/status-bar": "^6.0.0",
     "@supabase/supabase-js": "^2.44.2",
     "dom7": "^4.0.6",
+    "eruda": "^3.0.1",
     "firebase": "^10.12.3",
     "framework7": "^8.3.3",
     "framework7-icons": "^5.0.5",

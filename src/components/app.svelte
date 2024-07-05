@@ -25,6 +25,7 @@
     BlockFooter,
     Input,
     Button,
+    Icon,
   } from "framework7-svelte";
 
   import capacitorApp from "../js/capacitor-app";
@@ -59,119 +60,40 @@
     });
   });
 
-  let activesetuptab = 0;
-  let setup = [
-    {
-      input: "name",
-      label: "Name",
-      placeholder: "Your name",
-      type: "text",
-      clearButton: true,
-    },
-    {
-      input: "email",
-      label: "Email",
-      placeholder: "Your email",
-      type: "email",
-      clearButton: true,
-    },
-    {
-      input: "password",
-      label: "Password",
-      placeholder: "Your password",
-      type: "password",
-      clearButton: true,
-    },
-  ];
-
-  let setupData = {
-    name: "",
-    email: "",
-    password: "",
-  };
-
-  import { supabase } from "../lib/supabase";
+  import { loggedin } from "../lib/firebase";
+  import { FirebaseAuthentication } from "@capacitor-firebase/authentication";
+  import eruda from "eruda";
+  eruda.init();
 </script>
 
 <App {...f7params}>
-  <!-- Views/Tabs container -->
   <Views tabs class="safe-areas">
-    <!-- Tabbar for switching views-tabs -->
     <Toolbar tabbar icons bottom>
       <Link tabLink="#view-home" tabLinkActive iconIos="f7:house_fill" />
       <Link tabLink="#view-streak" iconIos="f7:flame" />
       <Link tabLink="#view-settings" iconIos="f7:person" />
     </Toolbar>
 
-    <!-- Your main view/tab, should have "view-main" class. It also has "tabActive" prop -->
     <View id="view-home" main tab tabActive url="/" />
-
-    <!-- Catalog View -->
     <View id="view-catalog" name="catalog" tab url="/catalog/" />
-
-    <!-- Settings View -->
     <View id="view-settings" name="settings" tab url="/settings/" />
   </Views>
 
-  <!-- Setup -->
-  <LoginScreen opened>
-    <LoginScreenTitle>
-      <div class="font-light">Amigo</div>
-    </LoginScreenTitle>
-    <div class="mt-4 w-2/3 mx-auto">
-      <div>
-        <Input
-          label={setup[activesetuptab].label}
-          outline
-          bind:value={setupData[setup[activesetuptab].input]}
-          class="py-4 pl-3"
-          onInput={(e) => {
-            setupData[setup[activesetuptab].input] = e.target.value;
-          }}
-          type={setup[activesetuptab].type}
-          placeholder={setup[activesetuptab].placeholder}
-          clearButton={setup[activesetuptab].clearButton}
-        />
+  <LoginScreen opened={!$loggedin}>
+    <div class="flex flex-col gap-2 w-full h-full justify-center items-center">
+      <LoginScreenTitle>
+        <div class="font-light">Amigo</div>
+      </LoginScreenTitle>
+      <div class="mt-4">
         <Button
-          class="rounded-full w-24"
-          small
-          disabled={!setupData[setup[activesetuptab].input]}
-          tonal
           onClick={async () => {
-            activesetuptab = activesetuptab + 1;
-            if (activesetuptab >= setup.length) {
-              activesetuptab = 0;
-              console.log("setupData", setupData);
-              try {
-                await supabase.auth
-                  .signUp({
-                    email: setupData.email,
-                    password: setupData.password,
-                    options: {
-                      data: {
-                        name: setupData.name,
-                      },
-                    },
-                  })
-                  .then((res) => {
-                    console.log("res", res);
-                  });
-              } catch (error) {
-                await supabase.auth
-                  .signInWithPassword({
-                    email: setupData.email,
-                    password: setupData.password,
-                  })
-                  .then((res) => {
-                    console.log("res", res);
-                  });
-              }
-              f7.loginScreen.close();
-              f7.dialog.alert("You are now logged in!", "Success!");
-            }
+            const result = await FirebaseAuthentication.signInWithGoogle();
+            console.log(result);
           }}
+          class="rounded-full w-42 flex items-center justify-center"
         >
-          {#if activesetuptab < setup.length - 1}Next{:else}Finish{/if}
+          <Icon icon="google" class="mr-1" />
+          continue with Google
         </Button>
       </div>
     </div>
