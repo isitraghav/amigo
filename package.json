@@ -1,0 +1,53 @@
+{
+  "name": "amigo",
+  "private": true,
+  "version": "1.0.0",
+  "description": "amigo",
+  "repository": "",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "npm run dev",
+    "dev": "cross-env NODE_ENV=development vite",
+    "build": "cross-env NODE_ENV=production vite build",
+    "build-capacitor-android": "cross-env NODE_ENV=production vite build && npx cap copy android",
+    "postinstall": "cpy --flat ./node_modules/framework7-icons/fonts/*.* ./src/fonts/ && cpy --flat ./node_modules/material-icons/iconfont/*.* ./src/fonts/"
+  },
+  "browserslist": [
+    "IOS >= 15",
+    "Safari >= 15",
+    "last 5 Chrome versions",
+    "last 5 Firefox versions"
+  ],
+  "dependencies": {
+    "@capacitor-firebase/authentication": "^6.0.0",
+    "@capacitor/android": "^6.1.0",
+    "@capacitor/app": "^6.0.0",
+    "@capacitor/browser": "^6.0.1",
+    "@capacitor/core": "^6.1.0",
+    "@capacitor/keyboard": "^6.0.1",
+    "@capacitor/splash-screen": "^6.0.1",
+    "@capacitor/status-bar": "^6.0.0",
+    "@supabase/supabase-js": "^2.44.2",
+    "dom7": "^4.0.6",
+    "firebase": "^10.12.3",
+    "framework7": "^8.3.3",
+    "framework7-icons": "^5.0.5",
+    "framework7-svelte": "^8.3.3",
+    "material-icons": "^1.13.12",
+    "skeleton-elements": "^4.0.1",
+    "svelte": "^4.2.18",
+    "swiper": "^11.1.4"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.1.0",
+    "@sveltejs/vite-plugin-svelte": "^3.1.1",
+    "autoprefixer": "^10.4.19",
+    "cordova-res": "^0.15.4",
+    "cpy-cli": "^5.0.0",
+    "cross-env": "^7.0.3",
+    "postcss": "^8.4.39",
+    "postcss-preset-env": "^9.5.15",
+    "tailwindcss": "^3.4.4",
+    "vite": "^5.3.3"
+  }
+}
