@@ -8,12 +8,12 @@
 <Page>
   <div class="m-3 w-full flex flex-col justify-center items-center">
     <img
-      src={userData.photoUrl}
+      src={$userData.photoUrl}
       class="object-cover m-auto rounded-full w-24 h-24 aspect-square"
       alt=""
     />
-    <h1 class="text-2xl font-bold">{userData.displayName}</h1>
-    <p class="text-gray-500">{userData.email}</p>
+    <h1 class="text-2xl font-bold">{$userData.displayName}</h1>
+    <p class="text-gray-500">{$userData.email}</p>
   </div>
   <List strongIos inset>
     <ListButton
