@@ -27,10 +27,9 @@ const provider = new GoogleAuthProvider();
 
 export const loggedin = writable(false);
 export let userData = writable({});
-
 FirebaseAuthentication.addListener("authStateChange", (state) => {
   if (state.user) {
-    loggedin.set(true);
     userData.set(state.user);
+    loggedin.set(true);
   }
 });

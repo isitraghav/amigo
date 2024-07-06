@@ -2,11 +2,10 @@
   import { List, ListButton, ListItem, Page } from "framework7-svelte";
   import { loggedin, userData } from "../lib/firebase";
   import { FirebaseAuthentication } from "@capacitor-firebase/authentication";
-  console.log(userData);
 </script>
 
 <Page>
-  <div class="m-3 w-full flex flex-col justify-center items-center">
+  <div class="mt-3 w-full flex flex-col justify-center items-center">
     <img
       src={$userData.photoUrl}
       class="object-cover m-auto rounded-full w-24 h-24 aspect-square"

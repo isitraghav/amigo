@@ -2,3 +2,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.item-input-info {
+  @apply text-red-500;
+}
