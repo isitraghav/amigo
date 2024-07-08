@@ -2,9 +2,10 @@ import HomePage from "../pages/home.svelte";
 import ProfilePage from "../pages/profile.svelte";
 import PlanSession from "../pages/planSession.svelte";
 import MessagesPage from "../pages/message.svelte";
+import Planner from "../pages/planner.svelte";
 import { writable } from "svelte/store";
 
-export const hideToolbar = writable(true);
+export const hideToolbar = writable(false);
 
 var routes = [
   {
@@ -20,8 +21,12 @@ var routes = [
     component: PlanSession,
   },
   {
-    path: "/messages/:group",
+    path: "/messages/:sub/:topic/",
     component: MessagesPage,
+  },
+  {
+    path: "/planner/",
+    component: Planner,
   },
 ];
 

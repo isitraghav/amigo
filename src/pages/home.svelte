@@ -47,15 +47,21 @@
     let startTime = Date.now();
     let timeString = localStorage.getItem(`timer${name}`);
     if (timeString) {
-      let [minutes, seconds] = timeString.split(":");
+      let [hours, minutes, seconds] = timeString.split(":").map(Number);
       startTime =
-        Date.now() - (parseInt(minutes) * 60000 + parseInt(seconds) * 1000);
+        Date.now() -
+        (isNaN(hours) ? 0 : hours * 3600000) -
+        (isNaN(minutes) ? 0 : minutes * 60000) -
+        (isNaN(seconds) ? 0 : seconds * 1000);
     }
     timerInterval[name] = setInterval(() => {
       let elapsedTime = Date.now() - startTime;
-      let minutes = Math.floor(elapsedTime / 60000);
-      let seconds = ((elapsedTime % 60000) / 1000).toFixed(0);
+      let hours = Math.floor(elapsedTime / 3600000);
+      let minutes = Math.floor((elapsedTime % 3600000) / 60000);
+      let seconds = Math.floor((elapsedTime % 60000) / 1000);
       let timeString =
+        hours.toString().padStart(2, "0") +
+        ":" +
         minutes.toString().padStart(2, "0") +
         ":" +
         seconds.toString().padStart(2, "0");
@@ -66,14 +72,33 @@
       });
     }, 1000);
   }
-
   function stopTimer(name) {
     clearInterval(timerInterval[name]);
+  }
+
+  function activateSubTimer(sub) {
+    if (!$playerState[sub]) {
+      playerState.update((state) => {
+        Object.keys(state).forEach((key) => {
+          state[key] = false;
+          stopTimer(key);
+        });
+        state[sub] = true;
+        return state;
+      });
+      startTimer(sub);
+    } else {
+      playerState.update((state) => {
+        state[sub] = false;
+        stopTimer(sub);
+        return state;
+      });
+    }
   }
 </script>
 
 <Page>
-  <Navbar title="Amigo"></Navbar>
+  <Navbar title="Amigo" />
   <Block>
     <div>
       <p class="text-2xl">
@@ -94,32 +119,14 @@
       />
     {/if}
     {#each subjects as sub}
-      <div class="flex flex-col bg-[#242323] mb-2 rounded-md">
+      <div class="flex flex-col bg-[#242323] p-1 mb-2 rounded-md">
         <!-- svelte-ignore missing-declaration -->
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <!-- svelte-ignore a11y-no-static-element-interactions -->
         <div class="flex gap-1 items-center h-10">
           <span
             type="button"
-            on:click={async () => {
-              if (!$playerState[sub]) {
-                playerState.update((state) => {
-                  Object.keys(state).forEach((key) => {
-                    state[key] = false;
-                    stopTimer(key);
-                  });
-                  state[sub] = true;
-                  return state;
-                });
-                startTimer(sub);
-              } else {
-                playerState.update((state) => {
-                  state[sub] = false;
-                  stopTimer(sub);
-                  return state;
-                });
-              }
-            }}
+            on:click={activateSubTimer(sub)}
             class="rounded-full ml-2 cursor-pointer p-1 pb-1.5 flex justify-center items-center"
           >
             {#if $playerState[sub]}
@@ -128,9 +135,10 @@
               <Icon f7="play" size={25} color="red" />
             {/if}
           </span>
-          <p class="text-xl">{sub}</p>
+          <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+          <p class="text-xl" on:click={activateSubTimer(sub)}>{sub}</p>
           <p class="ml-auto pr-6">
-            {$playerTime[sub] ? $playerTime[sub] : "00:00"}
+            {$playerTime[sub] ? $playerTime[sub] : "00:00:00"}
           </p>
         </div>
         {#if $playerState[sub]}
@@ -142,8 +150,8 @@
               <Button
                 onClick={() => {
                   playerTime.update((n) => {
-                    n[sub] = "00:00";
-                    localStorage.setItem(`timer${sub}`, "00:00");
+                    n[sub] = "00:00:00";
+                    localStorage.setItem(`timer${sub}`, "00:00:00");
                     return n;
                   });
                   stopTimer(sub);

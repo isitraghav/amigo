@@ -34,7 +34,7 @@
   import { FirebaseAuthentication } from "@capacitor-firebase/authentication";
   import eruda from "eruda";
 
-  // eruda.init();
+  eruda.init();
 
   import { FirebaseFirestore } from "@capacitor-firebase/firestore";
 
@@ -191,13 +191,13 @@
   <Views tabs class="safe-areas">
     <Toolbar tabbar icons bottom>
       <Link tabLink="#view-home" tabLinkActive iconIos="f7:house_fill" />
-      <Link tabLink="#view-messages" iconIos="f7:chat_bubble_fill" />
+      <Link tabLink="#view-planner" iconIos="f7:calendar" />
       <Link tabLink="#view-streak" iconIos="f7:flame" />
       <Link tabLink="#view-profile" iconIos="f7:person" />
     </Toolbar>
 
     <View id="view-home" main tab tabActive url="/" />
-    <View id="view-messages" name="messages" tab url="/messages/ok" />
+    <View id="view-planner" name="planner" tab url="/planner/" />
     <View id="view-streak" name="streak" tab url="/streak/" />
     <View id="view-profile" name="profile" tab url="/profile/" />
 
