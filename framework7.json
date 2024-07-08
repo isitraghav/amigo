@@ -1,9 +1,6 @@
 {
   "cwd": "/home/raghav/Desktop/amigo",
-  "type": [
-    "web",
-    "capacitor"
-  ],
+  "type": ["web", "capacitor"],
   "name": "amigo",
   "framework": "svelte",
   "template": "tabs",
@@ -18,8 +15,6 @@
   "customBuild": false,
   "pkg": "com.amigostudy.app",
   "capacitor": {
-    "platforms": [
-      "android"
-    ]
+    "platforms": ["android"]
   }
 }

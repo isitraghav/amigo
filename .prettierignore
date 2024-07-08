@@ -1,0 +1,4 @@
+# Ignore artifacts:
+www
+node_modules
+android

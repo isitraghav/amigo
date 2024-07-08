@@ -191,8 +191,8 @@
   <Views tabs class="safe-areas">
     <Toolbar tabbar icons bottom>
       <Link tabLink="#view-home" tabLinkActive iconIos="f7:house_fill" />
-      <Link tabLink="#view-planner" iconIos="f7:calendar" />
-      <Link tabLink="#view-streak" iconIos="f7:flame" />
+      <!-- <Link tabLink="#view-planner" iconIos="f7:calendar" /> -->
+      <!-- <Link tabLink="#view-streak" iconIos="f7:flame" /> -->
       <Link tabLink="#view-profile" iconIos="f7:person" />
     </Toolbar>
 

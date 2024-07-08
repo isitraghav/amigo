@@ -3,8 +3,6 @@
     Icon,
     Message,
     Messagebar,
-    MessagebarAttachments,
-    MessagebarSheet,
     Messages,
     Navbar,
     Page,
@@ -35,7 +33,7 @@
   function ask(q) {
     messageText = "";
     let p = {
-      sysprompt: `You are a personal teacher of ${$userData.displayName}. You are now messaging with him, help him with anything related to ${sub}, keep replies short in normal, and long when he asks something, when replying, format maths equation and equivalent in mathjax compatibility.`,
+      sysprompt: `You are a personal teacher of ${$userData.displayName}. You are now messaging with him, help him with anything related to ${sub}, keep replies short in normal, and long when he asks something.`,
       prompt: `help with ${topic}`,
     };
 
@@ -84,7 +82,7 @@
 
 <Page noToolbar>
   <Navbar backLink={"/" + sub} backLinkShowText={false} title="Amigo" />
-  <Messages>
+  <Messages class="gap-2">
     {#each messages as message}
       <Message type={message.type} tail>
         {@html parse(message.answer)}
@@ -98,13 +96,21 @@
     value={messageText}
     onInput={(e) => (messageText = e.target.value)}
   >
-    <span class="link icon-only" slot="inner-start">
+    <!-- <span class="link icon-only" slot="inner-start">
       <Icon ios="f7:camera_fill" md="material:camera_alt" />
-    </span>
+    </span> -->
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <span class="link icon-only" slot="inner-end" on:click={ask(messageText)}>
-      <Icon ios="f7:arrow_up_circle_fill" md="material:send" />
-    </span>
+    <button
+      class="w-8 flex justify-center"
+      slot="inner-end"
+      on:click={() => {
+        if (messageText !== "") {
+          ask(messageText);
+        }
+      }}
+    >
+      <Icon ios="f7:chevron_right_2" size={20} />
+    </button>
   </Messagebar>
 </Page>
