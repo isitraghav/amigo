@@ -15,7 +15,6 @@
   import { FirebaseFirestore } from "@capacitor-firebase/firestore";
 
   export let sub;
-  console.log(sub);
 
   const timer = writable(localStorage.getItem(`timer${sub}`));
 
@@ -51,7 +50,6 @@
   let taskList = [];
 
   async function logTasks() {
-    console.log(newTask);
     if (newTask) {
       await FirebaseFirestore.setDocument({
         reference: "users/" + $userData.uid + "/" + sub + "/data",
@@ -84,7 +82,6 @@
   FirebaseFirestore.getDocument({
     reference: "users/" + $userData.uid + "/" + sub + "/data",
   }).then((snapshots) => {
-    console.log(snapshots.snapshot.data);
     if (snapshots.snapshot.data) {
       taskList = [...snapshots.snapshot.data.goal];
     }
@@ -160,7 +157,6 @@
           class="mr-4"
           on:click={() => {
             taskList = taskList.filter((t) => t !== task);
-            console.log(taskList);
 
             FirebaseFirestore.setDocument({
               reference: "users/" + $userData.uid + "/" + sub + "/data",

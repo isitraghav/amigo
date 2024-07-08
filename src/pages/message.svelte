@@ -16,15 +16,12 @@
   let apiendpoint = "https://groq-api-xi.vercel.app";
 
   if (process.env.NODE_ENV === "development") {
-    console.log("dev");
     apiendpoint = "http://localhost:3000";
   }
 
   if (sub === undefined) {
     sub = "what they ask";
   }
-
-  console.log(sub, topic);
 
   let messages = [];
   let messageText = "";

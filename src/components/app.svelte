@@ -34,8 +34,6 @@
   import { FirebaseAuthentication } from "@capacitor-firebase/authentication";
   import eruda from "eruda";
 
-  eruda.init();
-
   import { FirebaseFirestore } from "@capacitor-firebase/firestore";
 
   const device = getDevice();
@@ -71,7 +69,6 @@
 
   loggedin.subscribe(async (value) => {
     if (value) {
-      console.log("Logged in", $userData.uid);
       if (localStorage.getItem("setup") !== "done") {
         const snapshots = await FirebaseFirestore.getDocument({
           reference: "users/" + $userData.uid + "/setup/data",
@@ -153,7 +150,6 @@
           },
         });
       } catch (error) {
-        console.log(error);
         f7.toast
           .create({
             text: error.message,
@@ -170,7 +166,6 @@
     }
   }
 
-  let customSubjects = [];
   let usernamevailable = true;
   async function validateusername() {
     username = username.replace(/[^a-zA-Z0-9]/g, "");
@@ -247,7 +242,6 @@
                 Object.entries(e.target.selectedOptions).forEach((e) => {
                   subjects.push(e[1].value);
                 });
-                console.log(subjects);
               }}
             >
               <optgroup label="Core Subjects">
@@ -286,7 +280,6 @@
           <Button
             onClick={async () => {
               const result = await FirebaseAuthentication.signInWithGoogle();
-              console.log(result);
             }}
             tonal
             class="rounded-full w-42 gap-2 p-3 flex items-center justify-center"
